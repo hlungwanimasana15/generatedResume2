@@ -1,0 +1,313 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+  color: #f0f0f0;
+  line-height: 1.6;
+}
+
+/* Main content container */
+.container {
+  background: #fff;
+  backdrop-filter: blur(10px);
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  color: black;
+}
+
+/* Headings */
+h2 {
+  text-align: center;
+  color: black;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+h3 {
+  color: black;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin-top: 25px;
+}
+
+/* Inputs */
+.input-section {
+  margin-bottom: 20px;
+  background: rgba(245, 245, 245, 0.8);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #444;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+/* Buttons */
+.buttons {
+  text-align: center;
+  margin: 30px 0;
+}
+
+button {
+  padding: 12px 25px;
+  margin: 0 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Loading spinner */
+.loading {
+  text-align: center;
+  margin: 20px 0;
+  display: none;
+}
+
+.spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid green;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Resume Output Styles */
+.resume-container {
+  width: 100%;
+  margin-top: 30px;
+  overflow-x: auto;
+}
+
+.resume-template {
+  width: 100%;
+  max-width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 20mm;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.5;
+}
+
+.resume-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px black solid;
+}
+
+.resume-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: black;
+  text-transform: uppercase;
+}
+
+.resume-header p {
+  margin: 5px 0;
+  color: black;
+}
+
+.resume-section {
+  margin-bottom: 20px;
+}
+
+.resume-section h2 {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+  font-size: 18px;
+  color: black;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.experience-item, .education-item {
+  margin-bottom: 15px;
+}
+
+.experience-item h3, .education-item h3 {
+  margin: 0;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.experience-item .meta, .education-item .meta {
+  font-style: italic;
+  color: black;
+  margin: 5px 0;
+}
+
+.experience-item ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tag {
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+/* Two-column layout */
+.two-column {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.column {
+  width: 48%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 15px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  .two-column {
+    flex-direction: column;
+  }
+
+  .column {
+    width: 100%;
+  }
+
+  .resume-template {
+    padding: 10mm;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  input, textarea, select, button {
+    font-size: 14px;
+  }
+
+  .resume-header h1 {
+    font-size: 22px;
+  }
+
+  .resume-section h2 {
+    font-size: 16px;
+  }
+}
+
+/* Print styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .resume-container, .resume-container * {
+    visibility: visible;
+  }
+
+  .resume-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .no-print {
+    display: none;
+  }
+}
+
+.add-btn {
+  margin-top: 15px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.add-btn:hover {
+  background-color: #218838;
+}
