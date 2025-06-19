@@ -1,9 +1,7 @@
-
-
 async function generateResume() {
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('resumeContent').innerHTML = '';
-
+  document.getElementById("loading").style.display = "block";
+  document.getElementById("resumeContent").innerHTML = "";
+ 
   // Get user inputs
   const fullName = document.getElementById("fullName").value;
   const email = document.getElementById("email").value;
@@ -11,14 +9,54 @@ async function generateResume() {
   const address = document.getElementById("address").value;
   const linkedin = document.getElementById("linkedin").value;
 
-  const education = document.getElementById("education").value;
-  const university = document.getElementById("university").value;
-  const gradYear = document.getElementById("gradYear").value;
+  // Education entries
+const educationEntries = document.querySelectorAll("#educationSection .education-entry");
+let educationList = [];
 
-  const experience = document.getElementById("experience").value;
-  const company = document.getElementById("company").value;
-  const duration = document.getElementById("duration").value;
-  const responsibilities = document.getElementById("responsibilities").value;
+educationEntries.forEach(entry => {
+  const degree = entry.querySelector('input[name="education"]')?.value || "";
+  const university = entry.querySelector('input[name="university"]')?.value || "";
+  const gradYear = entry.querySelector('input[name="gradYear"]')?.value || "";
+  if (degree && university && gradYear) {
+    educationList.push(`${degree} - ${university} (${gradYear})`);
+  }
+});
+
+// Experience entries
+const experienceEntries = document.querySelectorAll("#experienceSection .experience-entry");
+let experienceList = [];
+
+experienceEntries.forEach(entry => {
+  const job = entry.querySelector('input[name="experience"]')?.value || "";
+  const company = entry.querySelector('input[name="company"]')?.value || "";
+  const duration = entry.querySelector('input[name="duration"]')?.value || "";
+  const responsibilities = entry.querySelector('textarea[name="responsibilities"]')?.value || "";
+  if (job && company && duration) {
+    experienceList.push(`${job} at ${company} (${duration}) - ${responsibilities}`);
+  }
+});
+
+// Also include the original static fields
+const staticEducation = {
+  degree: document.getElementById("education")?.value,
+  university: document.getElementById("university")?.value,
+  gradYear: document.getElementById("gradYear")?.value,
+};
+
+if (staticEducation.degree && staticEducation.university && staticEducation.gradYear) {
+  educationList.unshift(`${staticEducation.degree} - ${staticEducation.university} (${staticEducation.gradYear})`);
+}
+
+const staticExperience = {
+  job: document.getElementById("experience")?.value,
+  company: document.getElementById("company")?.value,
+  duration: document.getElementById("duration")?.value,
+  responsibilities: document.getElementById("responsibilities")?.value,
+};
+
+if (staticExperience.job && staticExperience.company && staticExperience.duration) {
+  experienceList.unshift(`${staticExperience.job} at ${staticExperience.company} (${staticExperience.duration}) - ${staticExperience.responsibilities}`);
+}
 
   const skills = document.getElementById("skills").value;
   const projects = document.getElementById("projects").value;
@@ -30,11 +68,18 @@ async function generateResume() {
 
   // Basic validation
   if (
-    !fullName || !email || !education || !university || !gradYear ||
-    !experience || !company || !duration || !jobDescription
+    !fullName ||
+    !email ||
+    !education ||
+    !university ||
+    !gradYear ||
+    !experience ||
+    !company ||
+    !duration ||
+    !jobDescription
   ) {
-    alert('Please fill in all required fields');
-    document.getElementById('loading').style.display = 'none';
+    alert("Please fill in all required fields");
+    document.getElementById("loading").style.display = "none";
     return;
   }
 
@@ -78,71 +123,74 @@ If any section (e.g., **skills, responsibilities, projects**) is weak or missing
 
 - Full Name: ${fullName}
 - Email: ${email}
-- Phone: ${phone || 'Not provided'}
-- Address: ${address || 'Not provided'}
-- LinkedIn: ${linkedin || 'Not provided'}
+- Phone: ${phone || "Not provided"}
+- Address: ${address || "Not provided"}
+- LinkedIn: ${linkedin || "Not provided"}
 
-🎓 Education:
-- Degree: ${education}
-- Institution: ${university}
-- Graduation Year: ${gradYear}
+📚 Education Entries:
+${educationList.join("\n")}
 
-💼 Experience:
-- Job Title: ${experience}
-- Company: ${company}
-- Duration: ${duration}
-- Responsibilities: ${responsibilities || 'Not provided'}
+🧪 Experience Entries:
+${experienceList.join("\n")}
 
-🛠️ Skills: ${skills || 'Not provided'}
-🚀 Projects: ${projects || 'Not provided'}
-🏢 Industry: ${industry || 'Not specified'}
+
+🛠️ Skills: ${skills || "Not provided"}
+🚀 Projects: ${projects || "Not provided"}
+🏢 Industry: ${industry || "Not specified"}
 
 📌 Job Description:
 ${jobDescription}
 `;
 
   try {
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer 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",
-        "Content-Type": "application/json",
-        "HTTP-Referer": window.location.href,
-        "X-Title": "AI Resume Generator"
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7,
-        max_tokens:2000
-      })
-    });
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization:
+            "Bearer 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",
+          "Content-Type": "application/json",
+          "HTTP-Referer": window.location.href,
+          "X-Title": "AI Resume Generator",
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-4o",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.7,
+          max_tokens: 2000,
+        }),
+      }
+    );
 
-    if (!response.ok) throw new Error(`API Error: ${response.status}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API Error: ${response.status}`);
+    }
 
     const data = await response.json();
+    console.log("API Response:", data);
     const result = data.choices[0].message.content;
 
-    let cleanHTML = result.replace(/```html/g, '').replace(/```/g, '').trim();
-    
+    let cleanHTML = result
+      .replace(/```html/g, "")
+      .replace(/```/g, "")
+      .trim();
    
     document.getElementById("resumeContent").innerHTML = cleanHTML;
-   
-  }
-  
-  catch (error) {
-    console.error('Error generating resume:', error);
-    alert('An error occurred while generating the resume.');
+  } catch (error) {
+    console.error("Error generating resume:", error);
+    alert("An error occurred while generating the resume.");
   } finally {
-    document.getElementById('loading').style.display = 'none';
+    document.getElementById("loading").style.display = "none";
   }
 }
 
-   function exportPDF() {
+function exportPDF() {
   const resumeContent = document.getElementById("resumeContent").innerHTML;
-  const fullName = document.getElementById("fullName").value || 'resume';
-  
-  const win = window.open('', '', 'height=800,width=800');
+  const fullName = document.getElementById("fullName").value || "resume";
+
+  const win = window.open("", "", "height=800,width=800");
   win.document.write(`
     <!DOCTYPE html>
     <html>
@@ -202,8 +250,10 @@ ${jobDescription}
 
 function exportHTML() {
   const resumeContent = document.getElementById("resumeContent").innerHTML;
-  const fullName = document.getElementById("fullName").value || 'resume';
-  const blob = new Blob([`
+  const fullName = document.getElementById("fullName").value || "resume";
+  const blob = new Blob(
+    [
+      `
     <!DOCTYPE html>
     <html>
     <head>
@@ -232,17 +282,20 @@ function exportHTML() {
       ${resumeContent}
     </body>
     </html>
-  `], { type: 'text/html' });
-  
+  `,
+    ],
+    { type: "text/html" }
+  );
+
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `${fullName.replace(/\s+/g, '_')}_resume.html`;
+  a.download = `${fullName.replace(/\s+/g, "_")}_resume.html`;
   a.click();
 }
 
 function exportDOC() {
   const resumeContent = document.getElementById("resumeContent").innerHTML;
-  const fullName = document.getElementById("fullName").value || 'resume';
+  const fullName = document.getElementById("fullName").value || "resume";
 
   const header = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' 
@@ -253,21 +306,18 @@ function exportDOC() {
   const footer = `</body></html>`;
   const sourceHTML = header + resumeContent + footer;
 
-  const blob = new Blob(['\ufeff', sourceHTML], {
-    type: 'application/msword'
+  const blob = new Blob(["\ufeff", sourceHTML], {
+    type: "application/msword",
   });
 
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `${fullName.replace(/\s+/g, '_')}_resume.doc`;
+  a.download = `${fullName.replace(/\s+/g, "_")}_resume.doc`;
   a.click();
-
-  
-
 }
 function addEducation() {
-  const educationSection = document.createElement('div');
-  educationSection.classList.add('education-entry');
+  const educationSection = document.createElement("div");
+  educationSection.classList.add("education-entry");
 
   educationSection.innerHTML = `
     <label>Degree:</label>
@@ -286,8 +336,8 @@ function addEducation() {
 }
 
 function addExperience() {
-  const experienceSection = document.createElement('div');
-  experienceSection.classList.add('experience-entry');
+  const experienceSection = document.createElement("div");
+  experienceSection.classList.add("experience-entry");
 
   experienceSection.innerHTML = `
     <label>Job Title:</label>
@@ -305,8 +355,8 @@ function addExperience() {
   `;
 
   const container = document.getElementById("experienceSection");
-  container.insertBefore(experienceSection, container.querySelector(".add-btn"));
+  container.insertBefore(
+    experienceSection,
+    container.querySelector(".add-btn")
+  );
 }
-
-
-

@@ -1,116 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI Resume Generator</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="container">
-    <h2>🧠 AI Resume Generator</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Resume Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>🧠 AI Resume Generator</h2>
 
-    <div class="input-section">
-      <h3>Personal Information</h3>
-      <label for="fullName">Full Name:</label>
-      <input type="text" id="fullName" placeholder="e.g., Luuh Mkhwanazi" required />
+      <div class="input-section">
+        <h3>Personal Information</h3>
+        <label for="fullName">Full Name:</label>
+        <input
+          type="text"
+          id="fullName"
+          placeholder="e.g., Luuh Mkhwanazi"
+          required
+        />
 
-      <label for="email">Email Address:</label>
-      <input type="email" id="email" placeholder="e.g., lundanele@example.com" required />
+        <label for="email">Email Address:</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="e.g., lundanele@example.com"
+          required
+        />
 
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" placeholder="e.g., +27 12 345 6789" />
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" placeholder="e.g., +27 12 345 6789" />
 
-      <label for="address">Address:</label>
-      <input type="text" id="address" placeholder="e.g., 123 Main St, City, Country" />
+        <label for="address">Address:</label>
+        <input
+          type="text"
+          id="address"
+          placeholder="e.g., 123 Main St, City, Country"
+        />
 
-      <label for="linkedin">LinkedIn Profile:</label>
-      <input type="url" id="linkedin" placeholder="e.g., linkedin.com/in/yourprofile" />
-    </div>
+        <label for="linkedin">LinkedIn Profile:</label>
+        <input
+          type="url"
+          id="linkedin"
+          placeholder="e.g., linkedin.com/in/yourprofile"
+        />
+      </div>
 
-    <div class="input-section" id="educationSection" >
-      <h3>Education</h3>
-      <label for="education">Degree:</label>
-      <input type="text" id="education" placeholder="e.g., Bachelor of Science in Computer Science" required />
+      <div class="input-section" id="educationSection">
+        <h3>Education</h3>
+        <label for="education">Degree:</label>
+        <input
+          type="text"
+          id="education"
+          placeholder="e.g., Bachelor of Science in Computer Science"
+          required
+        />
 
-      <label for="university">University Name:</label>
-      <input type="text" id="university" placeholder="e.g., University of Cape Town" required />
+        <label for="university">University Name:</label>
+        <input
+          type="text"
+          id="university"
+          placeholder="e.g., University of Cape Town"
+          required
+        />
 
-      <label for="gradYear">Graduation Year:</label>
-      <input type="text" id="gradYear" placeholder="e.g., 2024" required />
-       <button type="button" onclick="addEducation()" class="add-btn">+ Add More Education</button>
-    </div>
+        <label for="gradYear">Graduation Year:</label>
+        <input type="text" id="gradYear" placeholder="e.g., 2024" required />
+        <button type="button" onclick="addEducation()" class="add-btn">
+          + Add More Education
+        </button>
+      </div>
 
-    <div class="input-section" id="experienceSection">
-      <h3>Work Experience</h3>
-      <label for="experience">Job Title:</label>
-      <input type="text" id="experience" placeholder="e.g., Software Developer Intern" required />
+      <div class="input-section" id="experienceSection">
+        <h3>Work Experience</h3>
+        <label for="experience">Job Title:</label>
+        <input
+          type="text"
+          id="experience"
+          placeholder="e.g., Software Developer Intern"
+          required
+        />
 
-      <label for="company">Company Name:</label>
-      <input type="text" id="company" placeholder="e.g., Microsoft" required />
+        <label for="company">Company Name:</label>
+        <input
+          type="text"
+          id="company"
+          placeholder="e.g., Microsoft"
+          required
+        />
 
-      <label for="duration">Duration:</label>
-      <input type="text" id="duration" placeholder="e.g., Jan 2023 - Dec 2023" required />
+        <label for="duration">Duration:</label>
+        <input
+          type="text"
+          id="duration"
+          placeholder="e.g., Jan 2023 - Dec 2023"
+          required
+        />
 
-      <label for="responsibilities">Key Responsibilities (comma separated):</label>
-      <textarea id="responsibilities" placeholder="e.g., Developed web applications, Collaborated with cross-functional teams"></textarea>
-        <button type="button" onclick="addExperience()" class="add-btn">+ Add More Experience</button>
-    </div>
+        <label for="responsibilities"
+          >Key Responsibilities (comma separated):</label
+        >
+        <textarea
+          id="responsibilities"
+          placeholder="e.g., Developed web applications, Collaborated with cross-functional teams"
+        ></textarea>
+        <button type="button" onclick="addExperience()" class="add-btn">
+          + Add More Experience
+        </button>
+      </div>
 
-    <div class="input-section">
-      <h3>Additional Information</h3>
-      <label for="skills">Skills (comma separated):</label>
-      <textarea id="skills" placeholder="e.g., JavaScript, Python, Project Management"></textarea>
+      <div class="input-section">
+        <h3>Additional Information</h3>
+        <label for="skills">Skills (comma separated):</label>
+        <textarea
+          id="skills"
+          placeholder="e.g., JavaScript, Python, Project Management"
+        ></textarea>
 
-      <label for="projects">Notable Projects:</label>
-      <textarea id="projects" placeholder="Describe your key projects"></textarea>
+        <label for="projects">Notable Projects:</label>
+        <textarea
+          id="projects"
+          placeholder="Describe your key projects"
+        ></textarea>
 
-      <label for="industry">Industry:</label>
-      <select id="industry">
-        <option value="tech">Technology</option>
-        <option value="finance">Finance</option>
-        <option value="healthcare">Healthcare</option>
-        <option value="education">Education</option>
-        <option value="engineering">Engineering</option>
-      </select>
+        <label for="industry">Industry:</label>
+        <select id="industry">
+          <option value="tech">Technology</option>
+          <option value="finance">Finance</option>
+          <option value="healthcare">Healthcare</option>
+          <option value="education">Education</option>
+          <option value="engineering">Engineering</option>
+        </select>
 
-      <label for="jobDescription">Target Job Description:</label>
-      <textarea id="jobDescription" placeholder="Paste the job description you're applying for..." required></textarea>
-    </div>
-    <div class="input-section">
-  <h3>Choose Resume Template</h3>
-  <label for="templateSelect">Template:</label>
-  <select id="templateSelect">
-    <option value="Classic">Classic - Clean and traditional layout</option>
-    <option value="Modern">Modern - Sleek and professional with color highlights</option>
-    <option value="Creative">Creative - Stylish and unique design with visual elements</option>
-  </select>
-</div>
+        <label for="jobDescription">Target Job Description:</label>
+        <textarea
+          id="jobDescription"
+          placeholder="Paste the job description you're applying for..."
+          required
+        ></textarea>
+      </div>
+      <div class="input-section">
+        <h3>Choose Resume Template</h3>
+        <label for="templateSelect">Template:</label>
+        <select id="templateSelect">
+          <option value="Classic">
+            Classic - Clean and traditional layout
+          </option>
+          <option value="Modern">
+            Modern - Sleek and professional with color highlights
+          </option>
+          <option value="Creative">
+            Creative - Stylish and unique design with visual elements
+          </option>
+        </select>
+      </div>
 
-    <div class="buttons">
-      <button onclick="generateResume()">Generate Resume</button>
-      <button onclick="exportDOC()">Export to DOC</button>
-      <button onclick="exportPDF()">Export PDF</button>
-      <button onclick="exportHTML()">Export HTML</button>
-    </div>
-    
+      <div class="buttons">
+        <button onclick="generateResume()">Generate Resume</button>
+      </div>
 
-    <div id="loading" class="loading" style="display: none;">
-      <div class="spinner"></div>
-      <p>Generating your professional resume...</p>
-    </div>
+      <div id="loading" class="loading" style="display: none">
+        <div class="spinner"></div>
+        <p>Generating your professional resume...</p>
+      </div>
 
-    <h3>Generated Resume Preview</h3>
-    <div id="resumeOutput" class="resume-container">
-      <div class="resume-template" id="resumeContent">
-        <!-- Resume will be generated here -->
-        <p>Your generated resume will appear here after you click "Generate Resume".</p>
+      <h3>Generated Resume Preview</h3>
+      <div id="resumeOutput" class="resume-container">
+        <div class="resume-template" id="resumeContent">
+          <!-- Resume will be generated here -->
+          <p>
+            Your generated resume will appear here after you click "Generate
+            Resume".
+          </p>
+        </div>
+         <div class="buttons">
+
+        <button onclick="exportDOC()">Export to DOC</button>
+        <button onclick="exportPDF()">Export PDF</button>
+        <button onclick="exportHTML()">Export HTML</button>
+      </div>
       </div>
     </div>
-    
+    <script src="script.js" defer>
+            async function generateResume(){
+        console.log("generateResume called");
+        const prompt = "Test resume generation";
+        try {
+          console.log("Sending prompt:", prompt);
+          const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+            method:"POST",
+            headers:{
+              Authorization:"Bearer YOUR_OPENAI_API_KEY",
+              "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+              model:"gpt-4o",
+              messages:[{role:"user", content:prompt}]
+            })
+          });
+          console.log("Response status:", resp.status);
+          if(!resp.ok){
+            const err = await resp.text();
+            throw new Error(`HTTP ${resp.status} – ${err}`);
+          }
+          const data = await resp.json();
+          console.log("Response body:", data);
+          document.getElementById("resumeContent").innerText = data.choices[0].message.content;
+        } catch(e){
+          console.error("Error:", e);
+          alert("Error: " + e.message);
+        }
+      }
+    </script>
 
-  </div>
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
