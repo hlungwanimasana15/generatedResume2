@@ -181,37 +181,47 @@
       </div>
       </div>
     </div>
-    <script src="script.js" defer>
-            async function generateResume(){
-        console.log("generateResume called");
-        const prompt = "Test resume generation";
-        try {
-          console.log("Sending prompt:", prompt);
-          const resp = await fetch("https://api.openai.com/v1/chat/completions", {
-            method:"POST",
-            headers:{
-              Authorization:"Bearer YOUR_OPENAI_API_KEY",
-              "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-              model:"gpt-4o",
-              messages:[{role:"user", content:prompt}]
-            })
-          });
-          console.log("Response status:", resp.status);
-          if(!resp.ok){
-            const err = await resp.text();
-            throw new Error(`HTTP ${resp.status} – ${err}`);
-          }
-          const data = await resp.json();
-          console.log("Response body:", data);
-          document.getElementById("resumeContent").innerText = data.choices[0].message.content;
-        } catch(e){
-          console.error("Error:", e);
-          alert("Error: " + e.message);
-        }
+  <script>
+  async function generateResume() {
+    console.log("generateResume called");
+
+    const prompt = "Generate a professional resume for a software developer based on best practices.";
+
+    try {
+      const response = await fetch("https://api.cohere.ai/v1/chat", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer cQfKlyNzlphLOcmsXVxdgYOUiImSTHfpWg86HDl9",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "command-r",
+          message: prompt,
+          temperature: 0.7,
+          chat_history: [], // Leave empty if message is complete
+          connectors: [],   // Optional, leave empty unless using web search
+        })
+      });
+
+      console.log("Response status:", response.status);
+      if (!response.ok) {
+        const err = await response.text();
+        throw new Error(`HTTP ${response.status} – ${err}`);
       }
-    </script>
+
+      const data = await response.json();
+      console.log("Response body:", data);
+
+      // Display the generated text
+      document.getElementById("resumeContent").innerText = data.text;
+    } catch (e) {
+      console.error("Error:", e);
+      alert("Error: " + e.message);
+    }
+  }
+</script>
+
+
 
     <script src="script.js"></script>
   </body>

@@ -1,182 +1,97 @@
 async function generateResume() {
   document.getElementById("loading").style.display = "block";
   document.getElementById("resumeContent").innerHTML = "";
- 
-  // Get user inputs
+
   const fullName = document.getElementById("fullName").value;
   const email = document.getElementById("email").value;
   const phone = document.getElementById("phone").value;
   const address = document.getElementById("address").value;
   const linkedin = document.getElementById("linkedin").value;
 
-  // Education entries
-const educationEntries = document.querySelectorAll("#educationSection .education-entry");
-let educationList = [];
+  const educationEntries = document.querySelectorAll("#educationSection .education-entry");
+  let educationList = [];
 
-educationEntries.forEach(entry => {
-  const degree = entry.querySelector('input[name="education"]')?.value || "";
-  const university = entry.querySelector('input[name="university"]')?.value || "";
-  const gradYear = entry.querySelector('input[name="gradYear"]')?.value || "";
-  if (degree && university && gradYear) {
-    educationList.push(`${degree} - ${university} (${gradYear})`);
-  }
-});
+  educationEntries.forEach(entry => {
+    const degree = entry.querySelector('input[name="education"]')?.value || "";
+    const university = entry.querySelector('input[name="university"]')?.value || "";
+    const gradYear = entry.querySelector('input[name="gradYear"]')?.value || "";
+    if (degree && university && gradYear) {
+      educationList.push(`${degree} - ${university} (${gradYear})`);
+    }
+  });
 
-// Experience entries
-const experienceEntries = document.querySelectorAll("#experienceSection .experience-entry");
-let experienceList = [];
+  const experienceEntries = document.querySelectorAll("#experienceSection .experience-entry");
+  let experienceList = [];
 
-experienceEntries.forEach(entry => {
-  const job = entry.querySelector('input[name="experience"]')?.value || "";
-  const company = entry.querySelector('input[name="company"]')?.value || "";
-  const duration = entry.querySelector('input[name="duration"]')?.value || "";
-  const responsibilities = entry.querySelector('textarea[name="responsibilities"]')?.value || "";
-  if (job && company && duration) {
-    experienceList.push(`${job} at ${company} (${duration}) - ${responsibilities}`);
-  }
-});
-
-// Also include the original static fields
-const staticEducation = {
-  degree: document.getElementById("education")?.value,
-  university: document.getElementById("university")?.value,
-  gradYear: document.getElementById("gradYear")?.value,
-};
-
-if (staticEducation.degree && staticEducation.university && staticEducation.gradYear) {
-  educationList.unshift(`${staticEducation.degree} - ${staticEducation.university} (${staticEducation.gradYear})`);
-}
-
-const staticExperience = {
-  job: document.getElementById("experience")?.value,
-  company: document.getElementById("company")?.value,
-  duration: document.getElementById("duration")?.value,
-  responsibilities: document.getElementById("responsibilities")?.value,
-};
-
-if (staticExperience.job && staticExperience.company && staticExperience.duration) {
-  experienceList.unshift(`${staticExperience.job} at ${staticExperience.company} (${staticExperience.duration}) - ${staticExperience.responsibilities}`);
-}
+  experienceEntries.forEach(entry => {
+    const job = entry.querySelector('input[name="experience"]')?.value || "";
+    const company = entry.querySelector('input[name="company"]')?.value || "";
+    const duration = entry.querySelector('input[name="duration"]')?.value || "";
+    const responsibilities = entry.querySelector('textarea[name="responsibilities"]')?.value || "";
+    if (job && company && duration) {
+      experienceList.push(`${job} at ${company} (${duration}) - ${responsibilities}`);
+    }
+  });
 
   const skills = document.getElementById("skills").value;
   const projects = document.getElementById("projects").value;
   const industry = document.getElementById("industry").value;
   const jobDescription = document.getElementById("jobDescription").value;
-
-  // New: get selected template
   const template = document.getElementById("templateSelect").value;
 
-  // Basic validation
-  if (
-    !fullName ||
-    !email ||
-    !education ||
-    !university ||
-    !gradYear ||
-    !experience ||
-    !company ||
-    !duration ||
-    !jobDescription
-  ) {
-    alert("Please fill in all required fields");
-    document.getElementById("loading").style.display = "none";
-    return;
-  }
-
-  // Construct the prompt including template style
   const prompt = `
 You are an expert resume writer, career strategist, and ATS optimization specialist.
 
-Generate a complete, ATS-optimized, visually professional resume in **clean, valid HTML format** only (no markdown, no explanations, no code blocks), using the "${template}" template style.
+Generate a complete, ATS-optimized, professional resume in HTML format using the "${template}" style.
 
----
+Candidate Info:
+Name: ${fullName}
+Email: ${email}
+Phone: ${phone}
+Address: ${address}
+LinkedIn: ${linkedin}
 
-🎯 Your Task:
-
-Generate a full resume using the candidate details below, **and intelligently expand any missing or vague fields** using knowledge of:
-
-- The target job description
-- Industry standards
-- The candidate’s job title and education
-
-If any section (e.g., **skills, responsibilities, projects**) is weak or missing:
-- **Add realistic, valuable content** based on the candidate's role and the job description
-- **Infer commonly used tools, technologies, programming languages**, and relevant experience
-- **Write bullet points** that reflect the **impact**, not just duties
-- Align content to **real-world expectations** for that role
-
----
-
-📄 Formatting & Output Rules:
-
-- ATS-friendly, single-column HTML layout
-- Use professional section headers: **Summary, Skills, Experience, Education, Projects**
-- Prioritize clear structure and scanability
-- 3-4 lines of education
-- Each section must include **at least 3-5 bullet points** or descriptive items
-- The resume should be complete and detailed enough to be **2 pages long**
-
-
----
-
-👤 Candidate Info:
-
-- Full Name: ${fullName}
-- Email: ${email}
-- Phone: ${phone || "Not provided"}
-- Address: ${address || "Not provided"}
-- LinkedIn: ${linkedin || "Not provided"}
-
-📚 Education Entries:
+Education:
 ${educationList.join("\n")}
 
-🧪 Experience Entries:
+Experience:
 ${experienceList.join("\n")}
 
-
-🛠️ Skills: ${skills || "Not provided"}
-🚀 Projects: ${projects || "Not provided"}
-🏢 Industry: ${industry || "Not specified"}
-
-📌 Job Description:
-${jobDescription}
+Skills: ${skills}
+Projects: ${projects}
+Industry: ${industry}
+Target Job Description: ${jobDescription}
 `;
 
   try {
-    const response = await fetch(
-      "https://openrouter.ai/api/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization:
-            "Bearer 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",
-          "Content-Type": "application/json",
-          "HTTP-Referer": window.location.href,
-          "X-Title": "AI Resume Generator",
-        },
-        body: JSON.stringify({
-          model: "openai/gpt-4o",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.7,
-          max_tokens: 2000,
-        }),
-      }
-    );
+    const response = await fetch("https://api.cohere.ai/v1/chat", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer cQfKlyNzlphLOcmsXVxdgYOUiImSTHfpWg86HDl9", // Replace with real key
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "command-r",
+        message: prompt,
+        temperature: 0.7,
+        max_tokens: 1800,
+      }),
+    });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API Error: ${response.status}`);
+      const err = await response.text();
+      throw new Error(`API Error ${response.status}: ${err}`);
     }
 
     const data = await response.json();
-    console.log("API Response:", data);
-    const result = data.choices[0].message.content;
+    const result = data.text || data.generation || data.response || "No response.";
 
-    let cleanHTML = result
+    // Clean output
+    const cleanHTML = result
       .replace(/```html/g, "")
       .replace(/```/g, "")
       .trim();
-   
+
     document.getElementById("resumeContent").innerHTML = cleanHTML;
   } catch (error) {
     console.error("Error generating resume:", error);
@@ -185,6 +100,7 @@ ${jobDescription}
     document.getElementById("loading").style.display = "none";
   }
 }
+
 
 function exportPDF() {
   const resumeContent = document.getElementById("resumeContent").innerHTML;
