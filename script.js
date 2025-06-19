@@ -149,7 +149,7 @@ ${jobDescription}
         method: "POST",
         headers: {
           Authorization:
-            "Bearer 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",
+            "Bearer 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",
           "Content-Type": "application/json",
           "HTTP-Referer": window.location.href,
           "X-Title": "AI Resume Generator",
